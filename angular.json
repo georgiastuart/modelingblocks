@@ -24,9 +24,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/bootstrap/scss/bootstrap.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/blockly/blockly_compressed.js",
+              "node_modules/blockly/blocks_compressed.js",
+              "node_modules/blockly/python_compressed.js",
+              "node_modules/blockly/msg/js/en.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -121,5 +127,10 @@
         }
       }
     }},
-  "defaultProject": "modelingblocks"
+  "defaultProject": "modelingblocks",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
