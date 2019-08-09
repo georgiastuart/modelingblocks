@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 declare var Blockly: any;
@@ -319,6 +319,25 @@ export class BlocklyComponent implements OnInit {
     '        </value>\n' +
     '      </block>\n' +
     '    </category>\n' +
+    '    <category name="Numpy" colour="%{BKY_MATH_HUE}">\n' +
+    '    <block type="linspace">\n' +
+    '      <value name="START">\n' +
+    '        <shadow type="math_number">\n' +
+    '          <field name="NUM">0</field>\n' +
+    '        </shadow>\n' +
+    '      </value>\n' +
+    '      <value name="STOP">\n' +
+    '        <shadow type="math_number">\n' +
+    '          <field name="NUM">1</field>\n' +
+    '        </shadow>\n' +
+    '      </value>\n' +
+    '      <value name="NUM">\n' +
+    '        <shadow type="math_number">\n' +
+    '          <field name="NUM">100</field>\n' +
+    '        </shadow>\n' +
+    '      </value>\n' +
+    '    </block>\n' +
+    '  </category>' +
     '    <sep></sep>\n' +
     '    <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>\n' +
     '    <category name="Functions" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>\n' +
@@ -326,6 +345,7 @@ export class BlocklyComponent implements OnInit {
   workspace: any;
   code: any;
   output: string;
+  // @ViewChild('generatedCode', {static: false}) generatedCode: ElementRef;
 
   constructor() { }
   ngOnInit() {
@@ -336,17 +356,23 @@ export class BlocklyComponent implements OnInit {
     const blocklyCode = Blockly.Python.workspaceToCode(this.workspace);
 
     // Prism.highlightAll();
-    // console.log(blocklyCode);
+    console.log(blocklyCode);
     this.code =  Prism.highlight(blocklyCode, Prism.languages.python, 'python');
-    // console.log(this.code);
+    console.log(this.code);
   }
+
+  // highlight_code() {
+  //   Prism.highlightElement(this.generatedCode.nativeElement);
+  // }
 
   run_python() {
     const blocklyCode = Blockly.Python.workspaceToCode(this.workspace);
 
     languagePluginLoader.then(() => {
-      pyodide.runPython('output = \'\'\n' + blocklyCode);
-      this.output = pyodide.globals.output;
+      pyodide.loadPackage('numpy').then(() => {
+        pyodide.runPython('import numpy as np\n\noutput = \'\'\n' + blocklyCode);
+        this.output = pyodide.globals.output;
+      });
     });
 
   }

@@ -36,7 +36,9 @@
               "pyodide/pyodide.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-python.js",
-              "custom_blockly/python_override.js"
+              "custom_blockly/python_override.js",
+              "custom_blockly/custom_blocks.js",
+              "custom_blockly/custom_python.js"
             ]
           },
           "configurations": {
