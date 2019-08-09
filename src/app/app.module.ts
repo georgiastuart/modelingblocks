@@ -5,6 +5,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { BlocklyComponent } from './blockly/blockly.component';
 import { ConsoleComponent } from './console/console.component';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ConsoleComponent } from './console/console.component';
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     NgbModule
   ],
   providers: [],
