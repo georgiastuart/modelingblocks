@@ -3,11 +3,12 @@
 <ngb-tabset>
 <ngb-tab title="Blocks">
   <ng-template ngbTabContent>
-    <app-blockly></app-blockly>
+    <app-blockly #blockly></app-blockly>
   </ng-template>
 </ngb-tab>
-<ngb-tab title="Python Code">
+<ngb-tab title="Python Code" (click)="blockly.generate_code()">
   <ng-template ngbTabContent>
+    {{ blockly.code }}
   </ng-template>
 </ngb-tab>
 </ngb-tabset>

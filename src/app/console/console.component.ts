@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BlocklyComponent } from '../blockly/blockly.component';
 
 @Component({
   selector: 'app-console',

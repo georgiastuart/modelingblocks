@@ -25,13 +25,18 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/bootstrap/scss/bootstrap.scss"
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/prismjs/themes/prism.css"
             ],
             "scripts": [
               "node_modules/blockly/blockly_compressed.js",
               "node_modules/blockly/blocks_compressed.js",
               "node_modules/blockly/python_compressed.js",
-              "node_modules/blockly/msg/js/en.js"
+              "node_modules/blockly/msg/js/en.js",
+              "pyodide/pyodide.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-python.js",
+              "custom_blockly/python_override.js"
             ]
           },
           "configurations": {
