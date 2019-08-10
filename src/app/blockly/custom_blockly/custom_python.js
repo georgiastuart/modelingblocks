@@ -28,3 +28,11 @@ Blockly.Python['rand'] = function(block) {
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.Python.ORDER_NONE];
 };
+
+Blockly.Python['pandas_dataframe'] = function(block) {
+  var value_csv_string = Blockly.Python.valueToCode(block, 'CSV_STRING', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'pd.read_csv(StringIO(' + value_csv_string + '))\n';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_NONE];
+};

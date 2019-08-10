@@ -73,3 +73,15 @@ Blockly.Blocks['rand'] = {
     this.setHelpUrl("https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.random.rand.html#numpy.random.rand");
   }
 };
+
+Blockly.Blocks['pandas_dataframe'] = {
+  init: function() {
+    this.appendValueInput("CSV_STRING")
+      .setCheck(null)
+      .appendField("create Pandas DataFrame with CSV file or string");
+    this.setOutput(true, null);
+    this.setColour(65);
+    this.setTooltip("Creates a pandas dataframe from a string containing a CSV.");
+    this.setHelpUrl("");
+  }
+};

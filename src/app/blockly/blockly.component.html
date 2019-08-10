@@ -1,14 +1,45 @@
-<div class="row">
-  <form (ngSubmit)="upload_file()">
-    <div class="form-group">
-      <label>Upload a CSV</label>
-      <input type="file" id="csvFile" (change)="upload_file($event)" #fileInput>
-    </div>
-  </form>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Upload CSV File</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="csvFile">Upload a CSV. Files must be comma separated (CSV) files.</label>
+        <input type="file" class="form-control-file" id="csvFile" (change)="select_file($event)" #fileInput>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" [(ngModel)]="loadAsType" type="radio" name="fileType" id="pandasDataframeSelector" value="pandas" checked>
+        <label class="form-check-label" for="pandasDataframeSelector">
+          Import as Pandas DataFrame
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" [(ngModel)]="loadAsType" type="radio" name="fileType" id="numpyArraySelector" value="numpy">
+        <label class="form-check-label" for="numpyArraySelector">
+          Import as Numpy Array
+        </label>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="upload_file()">Upload</button>
+  </div>
+</ng-template>
+
+
+<div class="container">
+  <button class="btn btn-outline-primary" (click)="open(content)">Upload a File</button>
+
 </div>
 
 <div class="row">
-<div class="col-md-10">
+<div class="col-md-8">
 <div class="container" #blockly_container>
   <div id="blocklyDiv" style="height: 480px; width: blockly_container.offsetWidth;"></div>
 </div>
@@ -22,7 +53,7 @@
 </div>
 </div>
 
-<div class="col-md-2">
+<div class="col-md-4">
   <div class="container overflow-auto output">
   <div [innerHTML]="output"></div>
   </div>

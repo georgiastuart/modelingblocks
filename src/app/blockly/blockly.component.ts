@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {blocklyToolbox} from './blocklyToolbox';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 declare var Blockly: any;
 declare var languagePluginLoader: Promise<any>;
 declare var pyodide: any;
@@ -53,9 +55,12 @@ export class BlocklyComponent implements OnInit {
   code: any;
   output: string;
   csvFiles: string[] = [];
+  closeResult: string;
+  fileSelectEvent: any;
+  loadAsType: string;
   // @ViewChild('generatedCode', {static: false}) generatedCode: ElementRef;
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
   ngOnInit() {
     this.workspace = Blockly.inject('blocklyDiv', {toolbox: blocklyToolbox});
   }
@@ -73,29 +78,72 @@ export class BlocklyComponent implements OnInit {
     const blocklyCode = Blockly.Python.workspaceToCode(this.workspace);
 
     languagePluginLoader.then(() => {
-      pyodide.loadPackage('numpy').then(() => {
-        pyodide.runPython('import numpy as np\n\noutput = \'\'\n' + blocklyCode);
+      pyodide.loadPackage(['numpy', 'pandas']).then(() => {
+        pyodide.runPython('import numpy as np\nimport pandas as pd\nfrom io import StringIO\n\noutput = \'\'\n' + blocklyCode);
         this.output = pyodide.globals.output;
       });
     });
   }
 
+  initialize_file(datatype: string, csvContent: any) {
+    languagePluginLoader.then(() => {
+      if (datatype === 'numpy') {
+        pyodide.loadPackage(['numpy']).then(() => {
+          pyodide.globals.csv_string = csvContent;
+          pyodide.runPython('import numpy as np\nimport base64');
+          pyodide.runPython('numpy_files = []');
+          pyodide.runPython('buffer = base64.b64decode(csv_string)\nprint(buffer)\n');
+          // pyodide.runPython('csv_string = """' + csvContent + '""")\n');
+          pyodide.runPython('numpy_files.append(np.frombuffer(buffer))');
+          pyodide.runPython('print(numpy_files[0])');
+        });
+      }
+    });
+  }
+
+  select_file(event) {
+    console.log(event);
+    this.fileSelectEvent = event;
+  }
+
   // https://nehalist.io/uploading-files-in-angular2/
-  upload_file(event) {
+  upload_file() {
     const reader = new FileReader();
 
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
+    if (this.fileSelectEvent.target.files && this.fileSelectEvent.target.files.length > 0) {
+      const file = this.fileSelectEvent.target.files[0];
       fileNameList.push(file.name);
-      reader.readAsText(file);
+      reader.readAsDataURL(file);
       reader.onload = (e) => {
         // console.log(reader.result);
-        files.push([file.name, reader.result as string]);
+        files.push([file.name, reader.result]);
         console.log(files[1][1]);
         console.log(files[1][0]);
+
+        console.log('from files array ' + (files.length - 1) + ' ' + files[files.length - 1][1]);
+        this.initialize_file(this.loadAsType, files[files.length - 1][1]);
+        this.workspace.updateToolbox(blocklyToolbox);
       };
-      this.workspace.updateToolbox(blocklyToolbox);
+
       // const fileBlocks = this.workspace.getBlocksByType('fileselect');
+    }
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
     }
   }
 }
