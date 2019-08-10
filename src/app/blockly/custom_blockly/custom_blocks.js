@@ -1,3 +1,13 @@
+// import {fileList, fileNameList} from "../blockly.component";
+
+
+
+  // generateOptions: function() {
+  //   var options = fileNameList;
+  //   return options;
+  // }
+// };
+
 Blockly.Blocks['linspace'] = {
   init: function() {
     this.appendValueInput("START")

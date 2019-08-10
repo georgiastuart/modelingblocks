@@ -1,4 +1,4 @@
-export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly/xml" id="blocklyToolbox" style="display: none">\n' +
+export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">\n' +
   '  <category name="Logic" colour="#5b80a5">\n' +
   '    <block type="controls_if"/>\n' +
   '    <block type="logic_compare">\n' +
@@ -51,6 +51,19 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '    </block>\n' +
   '  </category>\n' +
   '  <category name="Math" colour="#5b67a5">\n' +
+  '    <block type="math_arithmetic">\n' +
+  '      <field name="OP">ADD</field>\n' +
+  '      <value name="A">\n' +
+  '        <shadow type="math_number">\n' +
+  '          <field name="NUM">1</field>\n' +
+  '        </shadow>\n' +
+  '      </value>\n' +
+  '      <value name="B">\n' +
+  '        <shadow type="math_number">\n' +
+  '          <field name="NUM">1</field>\n' +
+  '        </shadow>\n' +
+  '      </value>\n' +
+  '    </block>\n' +
   '    <block type="math_round">\n' +
   '      <field name="OP">ROUND</field>\n' +
   '      <value name="NUM">\n' +
@@ -58,9 +71,6 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '          <field name="NUM">3.1</field>\n' +
   '        </shadow>\n' +
   '      </value>\n' +
-  '    </block>\n' +
-  '    <block type="math_number">\n' +
-  '      <field name="NUM">0</field>\n' +
   '    </block>\n' +
   '    <block type="math_single">\n' +
   '      <field name="OP">ROOT</field>\n' +
@@ -90,18 +100,8 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '        </shadow>\n' +
   '      </value>\n' +
   '    </block>\n' +
-  '    <block type="math_arithmetic">\n' +
-  '      <field name="OP">ADD</field>\n' +
-  '      <value name="A">\n' +
-  '        <shadow type="math_number">\n' +
-  '          <field name="NUM">1</field>\n' +
-  '        </shadow>\n' +
-  '      </value>\n' +
-  '      <value name="B">\n' +
-  '        <shadow type="math_number">\n' +
-  '          <field name="NUM">1</field>\n' +
-  '        </shadow>\n' +
-  '      </value>\n' +
+  '    <block type="math_number">\n' +
+  '      <field name="NUM">0</field>\n' +
   '    </block>\n' +
   '    <block type="math_on_list">\n' +
   '      <mutation op="SUM"/>\n' +
@@ -151,6 +151,9 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '    <block type="math_random_float"/>\n' +
   '  </category>\n' +
   '  <category name="Text" colour="#5ba58c">\n' +
+  '    <block type="text_join">\n' +
+  '      <mutation items="2"/>\n' +
+  '    </block>\n' +
   '    <block type="text_charAt">\n' +
   '      <mutation at="true"/>\n' +
   '      <field name="WHERE">FROM_START</field>\n' +
@@ -159,9 +162,6 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '          <field name="VAR" id="t3i:#lc(N|[EQN_y3QB8">text</field>\n' +
   '        </block>\n' +
   '      </value>\n' +
-  '    </block>\n' +
-  '    <block type="text">\n' +
-  '      <field name="TEXT"/>\n' +
   '    </block>\n' +
   '    <block type="text_append">\n' +
   '      <field name="VAR" id="HR9SSY.!YW3^l^{c2**P">item</field>\n' +
@@ -198,8 +198,8 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '        </shadow>\n' +
   '      </value>\n' +
   '    </block>\n' +
-  '    <block type="text_join">\n' +
-  '      <mutation items="2"/>\n' +
+  '    <block type="text">\n' +
+  '      <field name="TEXT"/>\n' +
   '    </block>\n' +
   '    <block type="text_getSubstring">\n' +
   '      <mutation at1="true" at2="true"/>\n' +
@@ -245,6 +245,9 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '    </block>\n' +
   '  </category>\n' +
   '  <category name="Lists" colour="#745ba5">\n' +
+  '    <block type="lists_create_with">\n' +
+  '      <mutation items="3"/>\n' +
+  '    </block>\n' +
   '    <block type="lists_indexOf">\n' +
   '      <field name="END">FIRST</field>\n' +
   '      <value name="VALUE">\n' +
@@ -252,9 +255,6 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '          <field name="VAR" id="!uxO_,t?-F8Zrk-?BQ]R">list</field>\n' +
   '        </block>\n' +
   '      </value>\n' +
-  '    </block>\n' +
-  '    <block type="lists_create_with">\n' +
-  '      <mutation items="0"/>\n' +
   '    </block>\n' +
   '    <block type="lists_repeat">\n' +
   '      <value name="NUM">\n' +
@@ -266,7 +266,7 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '    <block type="lists_length"/>\n' +
   '    <block type="lists_isEmpty"/>\n' +
   '    <block type="lists_create_with">\n' +
-  '      <mutation items="3"/>\n' +
+  '      <mutation items="0"/>\n' +
   '    </block>\n' +
   '    <block type="lists_getIndex">\n' +
   '      <mutation statement="false" at="true"/>\n' +
@@ -371,7 +371,7 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '      </value>\n' +
   '    </block>\n' +
   '  </category>\n' +
-  '  <category name="Random" colour="#5b67a5">\n' +
+  '  <category name="Random">\n' +
   '    <block type="rand"/>\n' +
   '    <block type="randint">\n' +
   '      <value name="LOW">\n' +
@@ -400,5 +400,10 @@ export const blocklyToolbox = '<xml xmlns="https://developers.google.com/blockly
   '  </category>\n' +
   '  <sep/>\n' +
   '  <category name="Variables" colour="#a55b80" custom="VARIABLE"/>\n' +
+  '  <category name="Files">\n' +
+  '    <block type="fileselect">\n' +
+  '      <field name="NAME">filename</field>\n' +
+  '    </block>\n' +
+  '  </category>\n' +
   '  <category name="Functions" colour="#995ba5" custom="PROCEDURE"/>\n' +
   '</xml>';

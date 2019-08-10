@@ -1,4 +1,13 @@
 <div class="row">
+  <form (ngSubmit)="upload_file()">
+    <div class="form-group">
+      <label>Upload a CSV</label>
+      <input type="file" id="csvFile" (change)="upload_file($event)" #fileInput>
+    </div>
+  </form>
+</div>
+
+<div class="row">
 <div class="col-md-10">
 <div class="container" #blockly_container>
   <div id="blocklyDiv" style="height: 480px; width: blockly_container.offsetWidth;"></div>

@@ -6,6 +6,42 @@ declare var Blockly: any;
 declare var languagePluginLoader: Promise<any>;
 declare var pyodide: any;
 
+export let fileNameList: string[] = ['select a file...'];
+export let fileList: string[] = [];
+
+const files: string[][] = [['select a file...', null]];
+
+Blockly.Blocks.fileselect = {
+  init() {
+    this.appendDummyInput()
+      .appendField('file')
+      .appendField(new Blockly.FieldDropdown(
+        this.generateOptions()), 'FILE');
+    this.setOutput(true, 'String');
+    this.setColour(290);
+    this.setTooltip('References an uploaded file.');
+    this.setHelpUrl('');
+  },
+  generateOptions() {
+    const options: string[][] = [];
+    fileNameList.forEach( (name) => {
+      options.push([name, name.toUpperCase()]);
+    });
+    return options;
+  }
+};
+
+Blockly.Python.fileselect = (block) => {
+  const dropdownName = block.getFieldValue('FILE').toLowerCase();
+  console.log(dropdownName);
+  const fileContent = files.find((element) => {
+    return element[0].toLowerCase() === dropdownName;
+  });
+
+  const code = '\"\"\"' + fileContent[1] + '\"\"\"';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_NONE];
+};
 
 @Component({
   selector: 'app-blockly',
@@ -16,6 +52,7 @@ export class BlocklyComponent implements OnInit {
   workspace: any;
   code: any;
   output: string;
+  csvFiles: string[] = [];
   // @ViewChild('generatedCode', {static: false}) generatedCode: ElementRef;
 
   constructor() { }
@@ -32,10 +69,6 @@ export class BlocklyComponent implements OnInit {
     console.log(this.code);
   }
 
-  // highlight_code() {
-  //   Prism.highlightElement(this.generatedCode.nativeElement);
-  // }
-
   run_python() {
     const blocklyCode = Blockly.Python.workspaceToCode(this.workspace);
 
@@ -45,6 +78,24 @@ export class BlocklyComponent implements OnInit {
         this.output = pyodide.globals.output;
       });
     });
+  }
 
+  // https://nehalist.io/uploading-files-in-angular2/
+  upload_file(event) {
+    const reader = new FileReader();
+
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      fileNameList.push(file.name);
+      reader.readAsText(file);
+      reader.onload = (e) => {
+        // console.log(reader.result);
+        files.push([file.name, reader.result as string]);
+        console.log(files[1][1]);
+        console.log(files[1][0]);
+      };
+      this.workspace.updateToolbox(blocklyToolbox);
+      // const fileBlocks = this.workspace.getBlocksByType('fileselect');
+    }
   }
 }
