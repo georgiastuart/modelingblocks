@@ -21,7 +21,7 @@
     "@angular/router": "~8.2.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "@types/prismjs": "^1.16.0",
-    "prismjs": "^1.17.1",
+    "prismjs": "^1.25.0",
     "tslib": "^1.10.0",
     "uninstall": "0.0.0",
     "zone.js": "~0.9.1"
